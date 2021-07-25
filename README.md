@@ -16,6 +16,8 @@ Buys and sells are coloured green and red (respectively) regardless of value rel
 
 All trades are logged and stored into a CSV with columns for the value when bought and sold.
 
+A detailed explanation of creating the simulator can be found at the related [medium article](https://medium.com/@jeffreywardman/making-a-visual-trading-simulator-from-random-numbers-with-opencv-325ff545f4e7).
+
 ### Installation
 
 ```
