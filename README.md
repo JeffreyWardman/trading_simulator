@@ -2,6 +2,8 @@
 
 # Trading Simulator
 
+![](images/example.gif)
+
 </div>
 
 This is a simple trading simulator with visualiser in OpenCV. It allows one to buy and sell stock. By default, it uses two different uniform distributions based on if the price is above or below expected value to minimise the risk of the value straying too far away from its intrinsic value.
@@ -9,6 +11,10 @@ This is a simple trading simulator with visualiser in OpenCV. It allows one to b
 The sum of 10 single-digit numbers is used by default to determine the range of possible values (and the default expected value depends on this.)
 
 To use a different number generator (i.e. different distribution), overwrite Simulator.number_generator and Simulator.get_expected_value function to replace the number generator and its expected value.
+
+Buys and sells are coloured green and red (respectively) regardless of value relative to expected value.
+
+All trades are logged and stored into a CSV with columns for the value when bought and sold.
 
 ### Installation
 

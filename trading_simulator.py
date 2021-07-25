@@ -14,7 +14,8 @@ class TradingSimulator:
                  n_ticks: int = 100,
                  t_update: float = 0.02,
                  image_shape: Tuple[int, int] = (250, 1000),
-                 show_expected_value_line: bool = True):
+                 show_expected_value_line: bool = True,
+                 debug_mode: bool = False):
         """Trading simulator.
 
         Overwrite number_generator and get_expected_value function to replace the number generator and its expected
@@ -40,14 +41,16 @@ class TradingSimulator:
             image_shape (Tuple[int, int], optional): Image shape (height, width). Defaults to (250, 1000).
             show_expected_value_line (bool, optional): Whether to visualise expected value in simulator. Defaults to
                 True.
+            debug_mode (bool, optional): Whether to log duration between ticks. Defaults to False.
         """
         self.n_max = int(n_max)
         self.n_min = int(n_min)
         self.n_ticks = int(n_ticks)
-
+        
         self.t_update = t_update
         self.image_shape = image_shape
         self.show_expected_value_line = show_expected_value_line
+        self.debug_mode = debug_mode
 
         self.trades = []
         self.possible_range = 9 * (self.n_max - self.n_min)
@@ -117,8 +120,9 @@ class TradingSimulator:
 
             current_time = time.time()
             if current_time - previous_step_time > self.t_update:  # 1:
-                print(f"Step: {next_val}")
-                print(current_time - previous_step_time)
+                print(f"Step price: {next_val}")
+                if self.debug_mode:
+                    print(f"Time between ticks: {current_time - previous_step_time}")
                 previous_step_time = current_time
                 if not transaction_made_in_tick:
                     img = self.update(img, next_val=next_val)
@@ -139,11 +143,11 @@ class TradingSimulator:
             multiplier = previous_value * random.uniform(0.75, 1.1)
         else:
             multiplier = previous_value * random.uniform(0.9, 1.25)
-        return int(multiplier)
+        return multiplier
 
     @staticmethod
     def get_expected_value(n_max: int, n_min: int):
-        return int(4.5 * 10)
+        return 4.5 * (n_max - n_min)
 
     def update(self,
                img,
@@ -215,6 +219,11 @@ if __name__ == "__main__":
         default=True,
         type=bool,
         help="Whether to visualise expected value in simulator.")
+    parser.add_argument(
+        "--debug_mode",
+        default=False,
+        type=bool,
+        help="Whether to log duration between ticks.")
     args = parser.parse_args()
 
     sim = TradingSimulator()
